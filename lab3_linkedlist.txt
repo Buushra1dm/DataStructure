@@ -1,0 +1,160 @@
+/******************************************************************************
+BUSHRA DAJAM 2110054
+BUSHRA GHANEM ALZEGHABI 2110066
+
+*******************************************************************************/
+
+#include <iostream>
+
+using namespace std;
+struct node{
+    int data;
+    node *next;
+};
+
+//This method is called from main() and it visits each and every
+//node of linked list and displays the value stored in data field.
+
+void printAllNodes(node *head) {
+   node *helpPtr = new node();
+   helpPtr= head;
+   while (helpPtr != NULL) {
+   // Print the data value of the node
+   cout<<helpPtr->data<<"  ";
+   //Move to next node
+   helpPtr = helpPtr->next ;
+   }
+}
+//Task 1
+int findLargest(node* head) {
+    
+    node *temp=new node();
+    temp=head;
+    int Larg=temp->data;
+    while(temp!=NULL)
+    {
+        if(Larg < temp->data){
+           Larg=temp->data; 
+        }
+        temp=temp->next;
+    }
+    
+    return Larg;
+ 
+}
+//Task 2
+node* data2ndNode (node* head){
+    node *temp=new node();
+    temp=head;
+    temp=temp->next;
+    return temp;
+ }
+ 
+//Task 3
+node* data2ndLastNode (node* head ){
+    node *temp=new node();
+    temp=head;
+    while(temp->next != NULL)
+    {
+        if(temp->next->next==NULL){
+           break; 
+        }
+        temp=temp->next;
+    }
+    return temp;
+ }
+ 
+//Task 4
+void deleteLastNode (node* head){
+    node *temp=new node();
+    temp=head;
+    while(temp->next->next != NULL)
+    {
+        temp=temp->next;
+    }
+    temp->next =NULL;
+    
+}
+
+//Task 5
+void odd2Even2Odd (node* head){
+   node *temp=new node();
+    temp=head;
+    while(temp != NULL)
+    {
+        if(temp->data %2==0)
+        {
+            temp->data=temp->data+1;
+        }
+        else{
+            temp->data=temp->data-1;
+        }
+        temp=temp->next;
+    }
+   
+}
+
+
+
+int main(){
+// construct four linked list nodes and add their values( see output)
+  node *head = new node();
+  node *second = new node();
+  node *third = new node();
+  node *fourth = new node();
+  
+  head->data = 10;
+  
+  second->data =21;
+  
+  third->data =6;
+   
+  fourth->data =8;
+  
+  head->next=second;
+  
+  second->next=third;
+  
+  third->next=fourth;
+  
+  fourth->next=NULL;
+  
+ // display the nodes values using printAllNodes()
+ cout<<"the nodes have been constructed with values :";
+ printAllNodes(head);
+ 
+ // print the largest value in the linked list
+ cout<<endl<<"the largest value is : ";
+ cout<<findLargest(head)<<endl;
+ 
+ // print the value of the second node
+ cout<<"second nodes have values : ";
+ cout<<data2ndNode(head)->data<<endl;
+ 
+ // print the value of the second last node
+ cout<<"second last nodes have values : ";
+  cout<<data2ndLastNode(head)->data<<endl;
+  
+ // delete the last node
+ deleteLastNode(head);
+ cout<<endl<<"last node with value 8 has been deleted ! "<<endl;
+ 
+ // display the nodes values using printAllNodes()
+ 
+ cout<<endl<<"the list after deleting node : "<<endl;
+ printAllNodes(head);
+ 
+ // modify the nodes values by using odd2Even2Odd method
+ odd2Even2Odd(head);
+ 
+ // display the nodes values using printAllNodes()
+ cout<<endl<<"the list after modify the nodes values: "<<endl;
+ printAllNodes(head);
+ 
+ 
+ return 0;
+}
+
+
+ 
+ 

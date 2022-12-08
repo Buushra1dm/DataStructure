@@ -1,0 +1,251 @@
+//Bushra Ghanem Alzeghabi 2110066
+//Bushra Abdulkhaleg Dajam 2110054
+#include <iostream>
+#include <stdio.h>
+#include <stack>
+
+using namespace std;
+/////////////////
+class QueueNode {
+private:
+int data;
+QueueNode* next;
+
+public:
+// CONSTRUCTORS
+QueueNode() {
+data = 0;
+next = NULL;
+}
+QueueNode(int data) {
+this->data = data;
+next =NULL;
+}
+QueueNode(int data, QueueNode* next) {
+this->data = data;
+this->next = next;
+}
+int getData() {
+return data;
+}
+
+QueueNode* getNext() {
+return next;
+}
+
+// MUTATORS
+void setData(int data) {
+this->data = data;
+}
+
+void setNext(QueueNode* next) {
+this->next = next;
+}
+};
+
+// Class from which we can create fully functional Queues (using linked lists)
+
+class QueueLL {
+// top: reference variable to the top of the stack (same as "head" of linked list)
+
+private:
+QueueNode* front;
+QueueNode* back;
+
+public:
+// CONSTRUCTOR
+QueueLL() {
+front = NULL ;
+back = NULL;
+}
+
+bool isEmpty() {
+return front == NULL;
+}
+void printQueue()
+ {
+QueueNode* helpPtr = front;
+// Traverse to correct insertion point
+while (helpPtr != NULL) {
+// Print the data value of the node
+cout<<helpPtr->getData()<<", ";
+// Step one node over
+helpPtr = helpPtr->getNext();
+}
+cout<<endl;
+}
+
+void enqueue(int data) {
+QueueNode* temp = new QueueNode(data);
+
+if (isEmpty()) {
+ front = back = temp; 
+}
+else {
+back->setNext(temp);
+back = back->getNext();
+}
+ }
+ 
+ QueueNode* dequeue() 
+{
+QueueNode* temp = front;
+front = front->getNext();
+if (front == NULL) {
+ back = NULL; }
+temp->setNext(NULL);
+ return temp; 
+}
+
+int peek() {
+
+int frontValue = front->getData();
+return frontValue;
+}
+void SmallestLargest() 
+{
+int smallest = front->getData();
+int largest = front->getData();
+
+QueueNode* helpPtr = front;
+
+while (helpPtr != NULL) {
+if (smallest > helpPtr->getData()) {
+smallest = helpPtr->getData();
+}
+if (largest < helpPtr->getData()) {
+largest = helpPtr->getData();
+}
+helpPtr = helpPtr->getNext();
+}
+cout<<endl;
+cout<<">\tSmallest element in the queue is "<<smallest;
+cout<<"\tlargest element in the queue is " <<largest;
+cout<<endl;
+}
+
+QueueLL* fillQWithRandomNumber(QueueLL* myQueue) {
+ int randomNumber;
+ for (int i = 1; i <= 10; i++) {
+ randomNumber = rand() % 1000 + 1; ;
+ myQueue->enqueue(randomNumber);
+ }
+ return myQueue;
+ }
+ QueueLL* deleteNode(QueueLL* myQueue, int result) {
+ QueueLL *list1 = myQueue;
+ QueueLL *list2 = new QueueLL;
+ QueueLL *list3 = new QueueLL;
+ for (int i = 0; i < 10; i++) {
+ if (list1->peek() != result) {
+ list2->enqueue(list1->peek());
+ list1->dequeue();}
+ else {
+ list3->enqueue(list1->peek());
+ list1->dequeue();}
+ }
+ cout << "\n>\tAfter deleting value " << list3->peek() << " element of queue 1 as follows: \n";
+ list2->printQueue();
+ return list2;
+ }
+ 
+ void OddEvenNode(QueueLL* myQueue) {
+ cout << ">\tElements of queue 1 are as follow :" << endl;
+ myQueue->printQueue();
+ 
+ QueueLL* Queue2 = new QueueLL();
+ QueueLL* Queue3 = new QueueLL();
+ QueueNode* temp = front;
+ while (temp != NULL){
+ if (temp->getData() % 2 == 0)
+ Queue2->enqueue( temp->getData());
+ if (temp->getData() % 2 != 0)
+ Queue3->enqueue(temp->getData());
+ temp = temp->getNext();
+ }
+cout<<endl;
+ cout << ">\tElements of queue 2 are as follow :" << endl;
+ Queue2->printQueue();
+ cout<<endl;
+ cout << ">\tElements of queue 3 are as follow :" << endl;
+ Queue3->printQueue() ;
+ cout<<endl;
+ }
+ 
+ void reveresElement(QueueLL* myQueue){
+ cout << ">\tElements of queue are as follow :" << endl;
+ myQueue->printQueue();
+ stack <int> std;
+ while (!myQueue->isEmpty()) {
+ std.push(myQueue->peek());
+ myQueue->dequeue();
+ }
+ 
+ while (!std.empty()) {
+ myQueue->enqueue(std.top());
+ std.pop(); 
+ }
+ cout << "\n>\tElement of the queue after reversing are as follows :" << endl;
+ myQueue->printQueue();
+ }
+
+
+ };
+
+int main()
+{
+QueueLL* testQueue = new QueueLL();
+ QueueLL* myQueue = new QueueLL();
+ int value;
+ 
+ cout << "> What are values do you want to enqueue ( the input ends if it is 0): ";
+ cin >> value;
+ while (value != 0) { 
+ testQueue->enqueue(value); 
+ cout << "\t" << value << " was successfully enqueued into the queue."<<endl;
+ cin >> value;
+ }
+ cout << endl;
+ 
+ if (testQueue->isEmpty()) { 
+ cout << "> Error: cannot print nodes (the queue is empty)";
+ }
+ else {
+ cout << "> Printing All Nodes:";
+ cout << " ";
+ testQueue->printQueue(); 
+ }
+ cout << endl;
+ 
+ if(testQueue->isEmpty()){ 
+ cout<<">\tError: can't find largest and smallest nodes (the queue is empty)"<<endl;
+ }
+ 
+ else{
+ cout<<">\tDisplaying smallest and largest nodes:";
+ testQueue->SmallestLargest(); 
+ cout<<endl;
+ }
+ 
+ cout<<endl;
+ 
+ myQueue->fillQWithRandomNumber(myQueue); 
+ 
+ cout<<">>>>>>>> Detele Node from the queue (using 2nd queue) <<<<<<<<<"<<endl;
+ 
+ cout << ">\tBefore deleting value, elements of the queue are as follow :" << endl;
+ myQueue->printQueue(); 
+ 
+ cout << "\n>\tPlease enter an int value (between 1 and 1000) to delete from the queue: ";
+ cin >> value;
+ 
+ myQueue = myQueue->deleteNode(myQueue, value); 
+ 
+ cout << "\n>>>>>>>> Even and odd value queues <<<<<<<<<\n";
+ myQueue->OddEvenNode(myQueue); 
+ 
+ cout << "\n>>>>>>>> Reverse the elements of a queue <<<<<<<<<\n";
+ myQueue->reveresElement(myQueue);
+
+return 0;
+}
